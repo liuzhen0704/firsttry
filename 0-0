@@ -1,0 +1,82 @@
+#define NULL 0
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+	int data;
+	struct node *next;
+};
+
+struct node *create_list(int);
+void destroy_list(struct node *);
+void print_list(struct node *);
+void reverse_list(struct node *);
+
+
+int main(){
+	printf("建立一个链表：");
+	struct node *list=create_list(3);
+	printf("打印链表：");
+	print_list(list);	
+	
+	reverse_list(list);
+	printf("链表反转后为：");
+	print_list(list);
+		    
+	printf("\n销毁链表");
+	destroy_list(list);
+	
+	return 0;
+}
+//创建带头结点的单链表，返回其头结点指针 
+struct node *create_list(int n){
+	int i;
+	struct node *list=(struct node *)malloc(sizeof(struct node));
+	list->next=NULL;
+		
+	for(i=0;i<n;i++){
+		struct node *p=(struct node *)malloc(sizeof(struct node));
+		scanf("%d",&p->data);
+		p->next=list->next;
+		list->next=p;
+	}
+	
+	return list;
+}
+
+//打印链表 
+void print_list(struct node *L){
+	struct node *p=L->next;
+	while(p){
+		printf("%d ",p->data);
+		p=p->next;
+	}	
+}
+
+//销毁链表 
+void destroy_list(struct node *L){
+	struct node *p=L->next, *tmp;			
+	while(p){
+		tmp=p->next;
+		free(p);
+		p=tmp;		
+	}
+	L->next=NULL;
+}
+
+void reverse_list(struct node * L){
+      struct node*ptr1,*ptr2,*ptr3;
+      ptr1=NULL;
+      ptr2=L->next;
+      ptr3=ptr2->next;
+	 if(ptr2!=0||ptr3!=0)
+	 while(ptr3!=0)
+    {
+	     ptr2->next=ptr1;
+	     ptr1=ptr2;
+	     ptr2=ptr3;
+	     ptr3=ptr3->next;
+    }
+    ptr2->next=ptr1;
+    L->next=ptr2;
+}
